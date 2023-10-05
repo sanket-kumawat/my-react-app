@@ -9,9 +9,9 @@ export function PostDetails() {
 
   const numberId = parseInt(id ? id : '');
 
-  const { data, isFetching, error } = useGetPostDetailsQuery(numberId);
+  const { data } = useGetPostDetailsQuery(numberId);
 
-  const [deletePost, response] = useDeletePostMutation();
+  const [deletePost] = useDeletePostMutation();
 
   const navigate = useNavigate();
 

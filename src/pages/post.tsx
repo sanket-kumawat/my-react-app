@@ -1,13 +1,9 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { headerSelector, updateHeaderTitle } from '../redux/slices/header';
-import { fetchPosts, postSelector } from '../redux/slices/posts';
 import { AppDispatch } from '../redux/store';
 import { PostComponent } from '../components/post';
-import {
-  useGetPostDetailsQuery,
-  useGetPostQuery,
-} from '../redux/services/post';
+import { useGetPostQuery } from '../redux/services/post';
 
 export function Post() {
   const dispatch = useDispatch<AppDispatch>();
@@ -20,7 +16,7 @@ export function Post() {
     // dispatch(fetchPosts());
   }, [dispatch]);
 
-  const { data, isFetching, error } = useGetPostQuery();
+  const { data, isFetching } = useGetPostQuery();
 
   // const {
   //   data: postDetail,

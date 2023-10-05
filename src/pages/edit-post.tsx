@@ -10,7 +10,7 @@ export function EditPost() {
 
   const numberId = parseInt(id ? id : '');
 
-  const { data, isFetching, error } = useGetPostDetailsQuery(numberId);
+  const { data } = useGetPostDetailsQuery(numberId);
 
   const [formData, setFormData] = useState({
     title: '',
@@ -39,9 +39,7 @@ export function EditPost() {
     });
   };
 
-  const handleSubmit = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleSubmit = () => {
     data &&
       updatePost({
         id: data.id,

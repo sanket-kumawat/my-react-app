@@ -2,8 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import { useDeletePostMutation } from '../redux/services/post';
 import { Post } from '../redux/slices/posts';
 
-export const PostComponent: React.FC<Post> = ({ title, body, id, userId }) => {
-  const [deletePost, response] = useDeletePostMutation();
+export const PostComponent: React.FC<Post> = ({ title, body, id }) => {
+  const [deletePost] = useDeletePostMutation();
 
   const navigate = useNavigate();
 

@@ -6,5 +6,5 @@ export const baseApi = createApi({
     baseUrl: 'https://jsonplaceholder.typicode.com/',
   }),
   tagTypes: ['posts', 'postDetails'],
-  endpoints: (builder) => ({}),
+  endpoints: () => ({}),
 });
