@@ -10,6 +10,16 @@ export const postApi = baseApi.injectEndpoints({
 
     getPostDetails: builder.query<Post, number>({
       query: (id) => `posts/${id}`,
+      providesTags: ['postDetails'],
+    }),
+
+    updatePost: builder.mutation<Post, Post>({
+      query: (post) => ({
+        url: `/posts/${post.id}`,
+        method: 'PUT',
+        body: post,
+      }),
+      invalidatesTags: ['postDetails'],
     }),
 
     deletePost: builder.mutation<void, number>({
@@ -25,5 +35,6 @@ export const postApi = baseApi.injectEndpoints({
 export const {
   useGetPostQuery,
   useGetPostDetailsQuery,
+  useUpdatePostMutation,
   useDeletePostMutation,
 } = postApi;

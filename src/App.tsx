@@ -4,6 +4,8 @@ import { ToDo } from './pages/to-do';
 import { Post } from './pages/post';
 import { useSelector } from 'react-redux';
 import { headerSelector } from './redux/slices/header';
+import { PostDetails } from './pages/post-details';
+import { EditPost } from './pages/edit-post';
 
 function App() {
   const { title, show } = useSelector(headerSelector);
@@ -39,6 +41,14 @@ function App() {
               <Route
                 path='post'
                 element={<Post />}
+              />
+              <Route
+                path='post/:id'
+                element={<PostDetails />}
+              />
+              <Route
+                path='edit-post/:id'
+                element={<EditPost />}
               />
             </Route>
           </Routes>
