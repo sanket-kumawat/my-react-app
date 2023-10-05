@@ -4,17 +4,29 @@ import { headerSelector, updateHeaderTitle } from '../redux/slices/header';
 import { fetchPosts, postSelector } from '../redux/slices/posts';
 import { AppDispatch } from '../redux/store';
 import { PostComponent } from '../components/post';
+import {
+  useGetPostDetailsQuery,
+  useGetPostQuery,
+} from '../redux/services/post';
 
 export function Post() {
   const dispatch = useDispatch<AppDispatch>();
 
-  const { posts, isFetching, error } = useSelector(postSelector);
+  // const { posts, isFetching, error } = useSelector(postSelector);
   const { title } = useSelector(headerSelector);
 
   useEffect(() => {
     title !== 'Post' && dispatch(updateHeaderTitle('Post'));
-    dispatch(fetchPosts());
+    // dispatch(fetchPosts());
   }, [dispatch]);
+
+  const { data, isFetching, error } = useGetPostQuery();
+
+  // const {
+  //   data: postDetail,
+  //   isFetching: isFetchingDetail,
+  //   error: detailError,
+  // } = useGetPostDetailsQuery(1);
 
   return (
     <div>
@@ -22,8 +34,9 @@ export function Post() {
       <div className='flex flex-wrap justify-evenly'>
         {isFetching
           ? 'Loading...'
-          : posts.map((post) => (
+          : data?.map((post) => (
               <PostComponent
+                key={post.id}
                 title={post.title}
                 body={post.body}
                 id={post.id}
