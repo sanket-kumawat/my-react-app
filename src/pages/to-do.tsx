@@ -1,14 +1,10 @@
 import { useEffect, useReducer } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateHeaderTitle } from '../redux/slices/header';
-
-export type Task = {
-  name: string;
-  isDone: boolean;
-};
+import { ToDo, useGetToDoListQuery } from '../redux/services/todo';
 
 type InitialState = {
-  tasks: Task[];
+  tasks: ToDo[];
   inputValue: string;
 };
 
@@ -19,10 +15,17 @@ const initialState: InitialState = {
 
 function reducer(
   state: InitialState,
-  action: { type: string; payload?: string | number }
+  action: { type: string; payload?: string | number | ToDo[] }
 ): InitialState {
   const newArray = [...state.tasks];
   switch (action.type) {
+    case 'setTasks': {
+      return {
+        ...state,
+        tasks: Array.isArray(action.payload) ? [...action.payload] : [],
+      };
+    }
+
     case 'setInputValue': {
       return { ...state, inputValue: action.payload?.toString() || '' };
     }
@@ -30,7 +33,10 @@ function reducer(
     case 'addTask': {
       return {
         inputValue: '',
-        tasks: [...state.tasks, { name: state.inputValue, isDone: false }],
+        tasks: [
+          ...state.tasks,
+          { title: state.inputValue, completed: false, id: 1, userId: 1 },
+        ],
       };
     }
 
@@ -42,8 +48,10 @@ function reducer(
     case 'markDone': {
       const newArray = [...state.tasks];
       newArray[+(action.payload || 0)] = {
-        name: newArray[+(action.payload || 0)].name,
-        isDone: true,
+        title: newArray[+(action.payload || 0)].title,
+        completed: true,
+        id: 1,
+        userId: 1,
       };
       return { ...state, tasks: newArray };
     }
@@ -51,8 +59,10 @@ function reducer(
     case 'markPending': {
       const newArray = [...state.tasks];
       newArray[+(action.payload || 0)] = {
-        name: newArray[+(action.payload || 0)].name,
-        isDone: false,
+        title: newArray[+(action.payload || 0)].title,
+        completed: false,
+        id: 1,
+        userId: 1,
       };
       return { ...state, tasks: newArray };
     }
@@ -63,13 +73,17 @@ function reducer(
   }
 }
 
-export function ToDo() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(updateHeaderTitle('ToDo'));
-  }, [dispatch]);
+export function ToDoPage() {
+  const { data, isFetching } = useGetToDoListQuery();
 
   const [state, reducerDispatch] = useReducer(reducer, initialState);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(updateHeaderTitle('ToDo'));
+    data && reducerDispatch({ type: 'setTasks', payload: [...data] });
+  }, [dispatch, data]);
 
   return (
     <div>
@@ -99,9 +113,9 @@ export function ToDo() {
           {state.tasks &&
             state.tasks.map(
               (task, index) =>
-                !task.isDone && (
+                !task.completed && (
                   <div key={index}>
-                    {task.name}
+                    {task.title}
                     <button
                       className='border rounded-md py-1 px-2 bg-white'
                       onClick={() => {
@@ -128,9 +142,9 @@ export function ToDo() {
           {state.tasks &&
             state.tasks.map(
               (task, index) =>
-                task.isDone && (
+                task.completed && (
                   <div key={index}>
-                    {task.name}
+                    {task.title}
                     <button
                       className='border rounded-md py-1 px-2 bg-white'
                       onClick={() => {

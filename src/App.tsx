@@ -1,6 +1,6 @@
 import { Link, Route, Routes } from 'react-router-dom';
 import { Home } from './pages/home';
-import { ToDo } from './pages/to-do';
+import { ToDoPage } from './pages/to-do';
 import { Post } from './pages/post';
 import { useSelector } from 'react-redux';
 import { headerSelector } from './redux/slices/header';
@@ -36,7 +36,7 @@ function App() {
               />
               <Route
                 path='to-do'
-                element={<ToDo />}
+                element={<ToDoPage />}
               />
               <Route
                 path='post'
