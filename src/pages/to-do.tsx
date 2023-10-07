@@ -2,6 +2,9 @@ import { useEffect, useReducer } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateHeaderTitle } from '../redux/slices/header';
 import { ToDo, useGetToDoListQuery } from '../redux/services/todo';
+import { ToDoComponent } from '../components/to-do';
+import { cn } from '../utils/cn';
+import { Plus } from 'lucide-react';
 
 type InitialState = {
   tasks: ToDo[];
@@ -86,10 +89,31 @@ export function ToDoPage() {
   }, [dispatch, data]);
 
   return (
-    <div>
-      <div>
+    <div className='bg-[#0D0D0D] text-[#D9C9AD] flex flex-col items-center p-9'>
+      <div
+        className={cn(
+          'border rounded-3xl h-44 w-96 flex gap-10 justify-center items-center'
+        )}
+      >
+        <div>
+          <h2 className={cn('text-2xl font-bold')}>Todo Done</h2>
+          <p className={cn('tracking-[.2em]')}>keep it up</p>
+        </div>
+        <div
+          className={cn(
+            'w-28 h-28 rounded-full bg-regal-red flex justify-center items-center text-xl font-semibold text-black'
+          )}
+        >
+          {state.tasks.filter((task) => task.completed).length} /{' '}
+          {state.tasks.length}
+        </div>
+      </div>
+
+      <div className='flex p-9 gap-2 justify-center'>
         <input
+          className='bg-[#1E1E1E] placeholder-[#91826a] text-sm rounded-2xl w-80 py-3 px-5'
           value={state.inputValue}
+          placeholder='Write your next task'
           onChange={(event) => {
             reducerDispatch({
               type: 'setInputValue',
@@ -98,75 +122,26 @@ export function ToDoPage() {
           }}
         />
         <button
-          className='border rounded-md py-1 px-2 bg-white'
+          className='rounded-full bg-regal-red text-black w-11 flex justify-center items-center'
           onClick={() => {
             reducerDispatch({ type: 'addTask' });
           }}
         >
-          Add Task
+          <Plus strokeWidth={3} />
         </button>
       </div>
 
       <div>
-        <h3 className='text-xl'>Pending Task</h3>
-        <div className='pb-3'>
-          {state.tasks &&
-            state.tasks.map(
-              (task, index) =>
-                !task.completed && (
-                  <div key={index}>
-                    {task.title}
-                    <button
-                      className='border rounded-md py-1 px-2 bg-white'
-                      onClick={() => {
-                        reducerDispatch({ type: 'markDone', payload: index });
-                      }}
-                    >
-                      Done
-                    </button>
-                    <button
-                      className='border rounded-md py-1 px-2 bg-red-500'
-                      onClick={() => {
-                        reducerDispatch({ type: 'deleteTask', payload: index });
-                      }}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                )
-            )}
-        </div>
-
-        <h3 className='text-xl'>Completed Task</h3>
-        <div>
-          {state.tasks &&
-            state.tasks.map(
-              (task, index) =>
-                task.completed && (
-                  <div key={index}>
-                    {task.title}
-                    <button
-                      className='border rounded-md py-1 px-2 bg-white'
-                      onClick={() => {
-                        reducerDispatch({
-                          type: 'markPending',
-                          payload: index,
-                        });
-                      }}
-                    >
-                      Pending
-                    </button>
-                    <button
-                      className='border rounded-md py-1 px-2 bg-red-500'
-                      onClick={() => {
-                        reducerDispatch({ type: 'deleteTask', payload: index });
-                      }}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                )
-            )}
+        <div className={cn('flex flex-col items-center')}>
+          {state.tasks.map((task, index) => (
+            <ToDoComponent
+              key={index}
+              title={task.title}
+              completed={task.completed}
+              index={index}
+              reducerDispatch={reducerDispatch}
+            />
+          ))}
         </div>
       </div>
     </div>
