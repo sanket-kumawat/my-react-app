@@ -4,29 +4,21 @@ import { headerSelector, updateHeaderTitle } from '../redux/slices/header';
 import { AppDispatch } from '../redux/store';
 import { PostComponent } from '../components/post';
 import { useGetPostQuery } from '../redux/services/post';
+import { cn } from '../utils/cn';
 
 export function Post() {
   const dispatch = useDispatch<AppDispatch>();
 
-  // const { posts, isFetching, error } = useSelector(postSelector);
   const { title } = useSelector(headerSelector);
 
   useEffect(() => {
     title !== 'Post' && dispatch(updateHeaderTitle('Post'));
-    // dispatch(fetchPosts());
   }, [dispatch]);
 
   const { data, isFetching } = useGetPostQuery();
 
-  // const {
-  //   data: postDetail,
-  //   isFetching: isFetchingDetail,
-  //   error: detailError,
-  // } = useGetPostDetailsQuery(1);
-
   return (
-    <div>
-      <h1>Posts</h1>
+    <div className={cn('bg-gray-600 pt-4')}>
       <div className='flex flex-wrap justify-evenly'>
         {isFetching
           ? 'Loading...'

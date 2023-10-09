@@ -77,7 +77,7 @@ function reducer(
 }
 
 export function ToDoPage() {
-  const { data, isFetching } = useGetToDoListQuery();
+  const { data } = useGetToDoListQuery();
 
   const [state, reducerDispatch] = useReducer(reducer, initialState);
 
@@ -89,10 +89,10 @@ export function ToDoPage() {
   }, [dispatch, data]);
 
   return (
-    <div className='bg-[#0D0D0D] text-[#D9C9AD] flex flex-col items-center p-9'>
+    <div className='bg-[#0D0D0D] text-beige flex flex-col items-center p-9'>
       <div
         className={cn(
-          'border rounded-3xl h-44 w-96 flex gap-10 justify-center items-center'
+          'border border-beige rounded-3xl h-44 w-96 flex gap-10 justify-center items-center'
         )}
       >
         <div>

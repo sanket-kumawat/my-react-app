@@ -6,26 +6,46 @@ import { useSelector } from 'react-redux';
 import { headerSelector } from './redux/slices/header';
 import { PostDetails } from './pages/post-details';
 import { EditPost } from './pages/edit-post';
+import { cn } from './utils/cn';
+import { Home as HomeIcon, ListTodo, Newspaper } from 'lucide-react';
 
 function App() {
   const { title, show } = useSelector(headerSelector);
 
   return (
-    <div className='min-h-screen flex flex-grow bg-blue-200'>
-      <div className='w-52 bg-cyan-700'>
-        <ul>
-          <li>
-            <Link to='/'>Home</Link>
+    <div className='min-h-screen flex flex-grow'>
+      <div className='w-40 bg-beige flex justify-center'>
+        <ul className={cn('text-[#0D0D0D] text-xl font-bold pt-6')}>
+          <li className={cn('mb-2')}>
+            <Link
+              className={cn('flex gap-2')}
+              to='/'
+            >
+              <HomeIcon />
+              Home
+            </Link>
           </li>
-          <li>
-            <Link to='to-do'>To Do</Link>
+          <li className={cn('mb-2')}>
+            <Link
+              className={cn('flex gap-2')}
+              to='to-do'
+            >
+              <ListTodo />
+              To Do
+            </Link>
           </li>
-          <li>
-            <Link to='post'>Post</Link>
+          <li className={cn('mb-2')}>
+            <Link
+              className={cn('flex gap-2')}
+              to='post'
+            >
+              <Newspaper />
+              Post
+            </Link>
           </li>
         </ul>
       </div>
-      <div className='flex flex-col flex-1 bg-cyan-400'>
+      <div className='flex flex-col flex-1'>
         {show && <div className='h-14 bg-red-400'>{title}</div>}
         <div className='flex-grow w-full'>
           <Routes>

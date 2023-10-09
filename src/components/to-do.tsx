@@ -29,7 +29,7 @@ export const ToDoComponent: React.FC<ToDoComponent> = ({
   return (
     <div
       className={cn(
-        'border rounded-lg mb-5 p-5 w-96 flex gap-2 items-center h-16 bg-[#1E1E1E]'
+        'border border-beige rounded-lg mb-5 p-5 w-96 flex gap-2 items-center h-16 bg-[#1E1E1E]'
       )}
     >
       <div className='w-7'>

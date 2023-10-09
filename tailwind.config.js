@@ -5,6 +5,7 @@ export default {
     extend: {
       colors: {
         'regal-red': '#F3532F',
+        beige: '#D9C9AD',
       },
     },
   },
